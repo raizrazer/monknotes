@@ -1,8 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family: 'Inter',Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
@@ -11,11 +15,20 @@ a {
   text-decoration: none;
 }
 
+input:focus{
+  /* border: none; */
+  outline: none;
+}
+textarea:focus{
+  /* border: none; */
+  outline: none;
+}
+
 * {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   html {
     color-scheme: dark;
   }
@@ -23,4 +36,26 @@ a {
     color: white;
     background: black;
   }
+}
+
+
+/* CUSTOM CSS */
+.main{
+  position:relative;
+}
+.content{
+  line-height: 15px;
+}
+
+.content .date{
+  line-height: normal;
+}
+
+.pagination div{
+  cursor: pointer;
+  user-select: none;
+}
+
+Link{
+  color: red;
 }
