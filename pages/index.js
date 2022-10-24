@@ -10,17 +10,20 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Grid } from "react-loader-spinner";
 
 export default function Home() {
+  const [notesLength,setNotesLength] = useState()
+  const [currentPage, setCurrentPage] = useState(0);
+
   const notify = (value) => {
     switch (value) {
       case "error":
         toast.error("Loading data had some issues, please refresh/reload");
         break;
-      default:
-        toast("I don't know what this toast is!");
-    }
-  };
-
-  const [notesList, setNotesList] = useState();
+        default:
+          toast("I don't know what this toast is!");
+        }
+      };
+      
+      const [notesList, setNotesList] = useState();
   useEffect(() => {
     const getNotes = () => {
       const notesRef = collection(db, "notes");
@@ -37,23 +40,24 @@ export default function Home() {
           }
         );
         setNotesList(notes);
+        setNotesLength(notes.length);
       });
     };
     getNotes();
-  }, []);
-
-  const [currentPage, setCurrentPage] = useState(0);
+  }, [currentPage]);
 
   const notesPerPage = 6;
-  const visitedPage = currentPage * notesPerPage;
-  const visitedPageEnd = visitedPage + notesPerPage;
 
+  
   const displayNote = () => {
     if (notesList) {
-      // notesList.splice(visitedPage,visitedPageEnd);
+      const visitedPage = currentPage * notesPerPage;
+      const visitedPageEnd = visitedPage + notesPerPage;
+      console.log({visitedPage,visitedPageEnd})
       return notesList
-        .splice(visitedPage, visitedPageEnd)
+        .splice(visitedPage, notesPerPage)
         .map((note, index) => {
+          console.log(note.data().heading)
           return (
             <NoteItem
               key={index}
@@ -80,7 +84,10 @@ export default function Home() {
       );
     }
   };
-
+  // * Page change action function
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
   return (
     <div className="main max-w-[1200px] mx-auto">
       {/* * Navbar / Just Header */}
@@ -107,7 +114,7 @@ export default function Home() {
         </div>
       </div>
       {/* Pagination */}
-      {notesList && <Pagination notesPerPage={notesPerPage} totalNotes={notesList.length} />}
+      <Pagination notesPerPage={notesPerPage} currentPage={currentPage} totalNotes={notesLength} handlePageChange={handlePageChange} />
     </div>
   );
 }
