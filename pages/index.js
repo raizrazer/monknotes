@@ -35,7 +35,6 @@ export default function Home() {
             notes.push(doc);
           },
           (error) => {
-            console.log(error);
             notify("error");
           }
         );
@@ -53,11 +52,9 @@ export default function Home() {
     if (notesList) {
       const visitedPage = currentPage * notesPerPage;
       const visitedPageEnd = visitedPage + notesPerPage;
-      console.log({visitedPage,visitedPageEnd})
       return notesList
         .splice(visitedPage, notesPerPage)
         .map((note, index) => {
-          console.log(note.data().heading)
           return (
             <NoteItem
               key={index}

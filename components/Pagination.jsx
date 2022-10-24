@@ -1,12 +1,10 @@
 import React from "react";
 
 const Pagination = ({ notesPerPage, totalNotes, handlePageChange, currentPage }) => {
-  console.log({ notesPerPage, totalNotes });
   const pageNumbers = [];
   for (let i = 0; i < Math.ceil(totalNotes / notesPerPage); i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers)
   const paginate = () => {
    return pageNumbers.map((page, index) => {
       return (

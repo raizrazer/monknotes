@@ -7,16 +7,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateInput = () => {
+  // * Toastify function to show a toast when a user created a note.
   const notify = (value) => {
-    switch(value){
+    switch (value) {
       case "success":
         toast.success("Note added successfully!");
         break;
       default:
-        toast("I don't know what this toast is!")
-
+        toast("I don't know what this toast is!");
     }
-  }
+  };
   const formRef = useRef();
   // * Form Focus controls state
   const [inFocus, setInFocus] = useState(false);
@@ -27,7 +27,7 @@ const CreateInput = () => {
   const [titleValue, setTitleValue] = useState("");
   const [taglineValue, setTaglineValue] = useState("");
   const [bodyValue, setBodyValue] = useState("");
-
+  // * Show Error if the required input field is not filled.
   const showErrorInput = (text) => {
     return (
       <p className="text-xs mx-1 text-red-500 justify-self-end ">
@@ -39,14 +39,12 @@ const CreateInput = () => {
   //* Add a new document with a generated id.
   const addNote = async () => {
     if (titleValue === "") {
-      console.log("INSIDE TITLE");
       setTitleError(true);
       setTimeout(() => {
         setTitleError(false);
       }, 10000);
       return;
     } else if (bodyValue === "") {
-      console.log("INSIDE BODY");
       setBodyError(true);
       setTimeout(() => {
         setBodyError(false);
@@ -63,13 +61,12 @@ const CreateInput = () => {
       setTitleValue("");
       setTaglineValue("");
       setBodyValue("");
-      console.log("Document written with ID: ", docRef.id);
       notify("success");
     }
   };
   return (
     <div className={`py-10 px-5`}>
-      <ToastContainer draggable/>
+      <ToastContainer draggable />
       <div className={`flex justify-center `}>
         <form
           ref={formRef}
@@ -77,7 +74,9 @@ const CreateInput = () => {
             setInFocus(true);
           }}
           onBlur={() => {
-            setInFocus(false);
+            if(titleValue === "" && bodyValue === ""){
+              setInFocus(false);
+            }
           }}
           className={`flex w-[500px] bg-white flex-col p-2 outline-black transition-all duration-500 shadow-brand-main rounded-brand-main justify-center max-w-[1000px] ${
             inFocus ? "outline-[1px] " : ""
@@ -96,8 +95,10 @@ const CreateInput = () => {
                 placeholder="Enter a title"
                 value={titleValue}
                 onChange={(e) => {
-                  setTitleError(false)
-                  setTitleValue(e.target.value);
+                  setTitleError(false);
+                  if(e.target.value.length<40){
+                    setTitleValue(e.target.value);
+                  }
                 }}
               ></input>
             </div>
@@ -130,7 +131,7 @@ const CreateInput = () => {
                 placeholder="Enter you notes here"
                 value={bodyValue}
                 onChange={(e) => {
-                  setBodyError(false)
+                  setBodyError(false);
                   setBodyValue(e.target.value);
                 }}
               ></textarea>
