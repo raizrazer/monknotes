@@ -190,7 +190,6 @@ export default function Home() {
         {/* Create a new Note */}
         <CreateInput createInputValues={createInputValues} />
         {/* Pinned Note Section */}
-        {/* Main Notes Section Displayed */}
         <div className={`mb-5 ${pinnedNotesLength ? `` : `hidden`}`}>
           <h1 className="flex mb-5 items-center text-brand-biggest text-brand-main-color-dark font-semibold px-3 md:px-10">
             {" "}
@@ -206,6 +205,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* Main Notes Section Displayed */}
         <div className="mb-5">
           <h1 className="flex mb-5 items-center text-brand-biggest text-brand-main-color-dark font-semibold px-3 md:px-10">
             {" "}
