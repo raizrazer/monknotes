@@ -132,7 +132,7 @@ const CreateInput = ({ createInputValues }) => {
       {/* Toast */}
       <ToastContainer draggable />
       <div className={`flex justify-center relative w-full`}>
-        <div className={`${inFocus ? `fixed transition-colors duration-[300ms]  top-0 w-screen h-screen bg-gray-500 bg-opacity-50` : ``}`}>
+        <div className={`${inFocus ? `fixed transition-colors duration-[300ms]  top-0 w-screen h-screen bg-black bg-opacity-60` : ``}`}>
           <form
             ref={formRef}
             onFocus={() => {
