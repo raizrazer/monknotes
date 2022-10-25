@@ -104,7 +104,7 @@ const CreateInput = ({ createInputValues }) => {
       }, 10000);
       return;
     } else {
-      if(pinned){
+      if (pinned) {
         const notesRef = doc(db, "pinnednotes", createInputValues.id);
         await updateDoc(notesRef, {
           heading: titleValue,
@@ -112,7 +112,7 @@ const CreateInput = ({ createInputValues }) => {
           notecontent: bodyValue,
           timestamp: new Date(),
         });
-      }else{
+      } else {
         const notesRef = doc(db, "notes", createInputValues.id);
         await updateDoc(notesRef, {
           heading: titleValue,
@@ -131,122 +131,126 @@ const CreateInput = ({ createInputValues }) => {
     <div className={`py-5 px-5`}>
       {/* Toast */}
       <ToastContainer draggable />
-      <div className={`flex justify-center `}>
-        <form
-          ref={formRef}
-          onFocus={() => {
-            setInFocus(true);
-          }}
-          onBlur={() => {
-            if (titleValue === "" && bodyValue === "") {
-              setUpdate(false);
-              setInFocus(false);
-            }
-          }}
-          className={`flex w-[500px] bg-card-bg flex-col p-2 outline-black transition-all duration-500 shadow-brand-main rounded-brand-main justify-center max-w-[1000px] ${
-            inFocus ? "outline-[1px] " : ""
-          }`}
-        >
-          <div>
-            <div className="flex max-w-[1200px]">
-              <AiOutlinePlusCircle
-                className={`text-4xl text-brand-lite-color transition-all duration-200 ${
-                  inFocus ? "w-0" : ""
-                }`}
-              />
+      <div className={`flex justify-center relative w-full`}>
+        <div className={`${inFocus ? `fixed transition-colors duration-[300ms]  top-0 w-screen h-screen bg-gray-500 bg-opacity-50` : ``}`}>
+          <form
+            ref={formRef}
+            onFocus={() => {
+              setInFocus(true);
+            }}
+            onBlur={() => {
+              if (titleValue === "" && bodyValue === "") {
+                setUpdate(false);
+                setInFocus(false);
+              }
+            }}
+            className={`flex transition-none w-[90%] md:w-[500px] bg-card-bg flex-col static p-2 outline-black transition-all duration-500 shadow-brand-main rounded-brand-main justify-center max-w-[1000px] ${
+              inFocus
+                ? "outline-[1px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                : ""
+            }`}
+          >
+            <div>
+              <div className="flex">
+                <AiOutlinePlusCircle
+                  className={`text-4xl text-brand-lite-color transition-all duration-200 ${
+                    inFocus ? "w-0" : ""
+                  }`}
+                />
+                <input
+                  className="bg-inherit p-1 mx-1 w-full text-brand-maintitle text-brand-main-color-dark font-bold"
+                  type={"text"}
+                  placeholder="Enter a title"
+                  value={titleValue}
+                  onChange={(e) => {
+                    setTitleError(false);
+                    if (e.target.value.length < 40) {
+                      setTitleValue(e.target.value);
+                    }
+                  }}
+                ></input>
+              </div>
+              {titleError ? showErrorInput("title") : ""}
+            </div>
+            <div
+              className={`flex transition-all duration-200 ${
+                inFocus ? "h-fit" : "h-0 overflow-hidden"
+              }`}
+            >
               <input
-                className="bg-inherit p-1 mx-1 w-full text-brand-maintitle text-brand-main-color-dark font-bold"
+                className="bg-inherit p-1 mx-1 w-full text-brand-subtitle text-brand-main-medium-color font-semibold"
                 type={"text"}
-                placeholder="Enter a title"
-                value={titleValue}
+                placeholder="Enter a tagline"
+                value={taglineValue}
                 onChange={(e) => {
-                  setTitleError(false);
-                  if (e.target.value.length < 40) {
-                    setTitleValue(e.target.value);
+                  if (e.target.value.length < 80) {
+                    setTaglineValue(e.target.value);
                   }
                 }}
               ></input>
             </div>
-            {titleError ? showErrorInput("title") : ""}
-          </div>
-          <div
-            className={`flex max-w-[1200px] transition-all duration-200 ${
-              inFocus ? "h-fit" : "h-0 overflow-hidden"
-            }`}
-          >
-            <input
-              className="bg-inherit p-1 mx-1 w-full text-brand-subtitle text-brand-main-medium-color font-semibold"
-              type={"text"}
-              placeholder="Enter a tagline"
-              value={taglineValue}
-              onChange={(e) => {
-                if (e.target.value.length < 80) {
-                  setTaglineValue(e.target.value);
-                }
-              }}
-            ></input>
-          </div>
-          <div>
+            <div>
+              <div
+                className={`flex transition-all duration-200 ${
+                  inFocus ? "h-fit" : "h-0 overflow-hidden"
+                }`}
+              >
+                <TextareaAutosize
+                  className="bg-inherit p-1 mx-1 w-full h-max text-brand-body text-brand-main-color-dark items-stretch"
+                  type={"text"}
+                  placeholder="Enter you notes here"
+                  value={bodyValue}
+                  onChange={(e) => {
+                    setBodyError(false);
+                    setBodyValue(e.target.value);
+                  }}
+                ></TextareaAutosize>
+              </div>
+              {bodyError ? showErrorInput("some content") : ""}
+            </div>
             <div
-              className={`flex max-w-[1200px] transition-all duration-200 ${
-                inFocus ? "h-fit" : "h-0 overflow-hidden"
+              className={`flex justify-center transition-all duration-200 ${
+                inFocus ? "h-fit my-1" : "h-0 overflow-hidden"
               }`}
             >
-              <TextareaAutosize
-                className="bg-inherit p-1 mx-1 w-full h-max text-brand-body text-brand-main-color-dark items-stretch"
-                type={"text"}
-                placeholder="Enter you notes here"
-                value={bodyValue}
-                onChange={(e) => {
-                  setBodyError(false);
-                  setBodyValue(e.target.value);
+              <button
+                className="flex items-center gap-4 font-semibold rounded-md bg-brand-lite-color text-brand-main-color-dark px-4 py-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  update ? updateNote() : addNote();
                 }}
-              ></TextareaAutosize>
-            </div>
-            {bodyError ? showErrorInput("some content") : ""}
-          </div>
-          <div
-            className={`flex justify-center max-w-[1200px] transition-all duration-200 ${
-              inFocus ? "h-fit my-1" : "h-0 overflow-hidden"
-            }`}
-          >
-            <button
-              className="flex items-center gap-4 font-semibold rounded-md bg-brand-lite-color text-brand-main-color-dark px-4 py-2"
-              onClick={(e) => {
-                e.preventDefault();
-                update ? updateNote() : addNote();
-              }}
-            >
-              {update ? (
-                <AiOutlineArrowUp
-                  className={`text-4xl text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
-                />
-              ) : (
-                <AiOutlinePlusCircle
-                  className={`text-4xl text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
-                />
-              )}
+              >
+                {update ? (
+                  <AiOutlineArrowUp
+                    className={`text-4xl text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
+                  />
+                ) : (
+                  <AiOutlinePlusCircle
+                    className={`text-4xl text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
+                  />
+                )}
 
-              {update ? `Update Note` : `Create a Note`}
-            </button>
-            <div className="ml-2 ">
-              {update ? (
-                <AiOutlineClear
-                  onClick={() => {
-                    setTitleValue("");
-                    setTaglineValue("");
-                    setBodyValue("");
-                    setUpdate(false);
-                    setInFocus(false);
-                  }}
-                  className={`text-4xl h-full rounded-md text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
-                />
-              ) : (
-                ""
-              )}
+                {update ? `Update Note` : `Create a Note`}
+              </button>
+              <div className="ml-2 ">
+                {update ? (
+                  <AiOutlineClear
+                    onClick={() => {
+                      setTitleValue("");
+                      setTaglineValue("");
+                      setBodyValue("");
+                      setUpdate(false);
+                      setInFocus(false);
+                    }}
+                    className={`text-4xl h-full rounded-md text-brand-main-color-dark bg-brand-lite-color transition-all duration-200`}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
