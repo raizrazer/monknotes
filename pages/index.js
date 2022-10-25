@@ -10,20 +10,25 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { Grid } from "react-loader-spinner";
 
 export default function Home() {
-  const [notesLength,setNotesLength] = useState()
+  const [notesLength, setNotesLength] = useState();
+  // * To store the value of the current page
   const [currentPage, setCurrentPage] = useState(0);
+  // * Notes List fetching from firebase firestore
+  const [notesList, setNotesList] = useState();
+  // * To store the values of the clicked notes and to display it on the create input fields
+  const [createInputValues, setCreateInputValues] = useState();
 
+  // * Toastify Section
   const notify = (value) => {
     switch (value) {
       case "error":
         toast.error("Loading data had some issues, please refresh/reload");
         break;
-        default:
-          toast("I don't know what this toast is!");
-        }
-      };
-      
-      const [notesList, setNotesList] = useState();
+      default:
+        toast("I don't know what this toast is!");
+    }
+  };
+
   useEffect(() => {
     const getNotes = () => {
       const notesRef = collection(db, "notes");
@@ -43,29 +48,29 @@ export default function Home() {
       });
     };
     getNotes();
-  }, [currentPage]);
+  }, []);
 
+  // * The number of notes per page
   const notesPerPage = 6;
 
-  
+  // * Function that displays the Notes
   const displayNote = () => {
     if (notesList) {
       const visitedPage = currentPage * notesPerPage;
-      const visitedPageEnd = visitedPage + notesPerPage;
-      return notesList
-        .splice(visitedPage, notesPerPage)
-        .map((note, index) => {
-          return (
-            <NoteItem
-              key={index}
-              id={note.id}
-              title={note.data().heading}
-              tagline={note.data().tagline}
-              body={note.data().notecontent}
-              timestamp={note.data().timestamp}
-            />
-          );
-        });
+      const vistedPageLast = visitedPage + notesPerPage;
+      return notesList.slice(visitedPage, vistedPageLast).map((note, index) => {
+        return (
+          <NoteItem
+            key={index}
+            id={note.id}
+            title={note.data().heading}
+            tagline={note.data().tagline}
+            body={note.data().notecontent}
+            timestamp={note.data().timestamp}
+            getCreateInputData={getCreateInputData}
+          />
+        );
+      });
     } else {
       return (
         <Grid
@@ -84,15 +89,23 @@ export default function Home() {
   // * Page change action function
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-  }
+  };
+
+  // * Function to get the content to show in the CreateInput
+  const getCreateInputData = (dataFields) => {
+    setCreateInputValues(dataFields);
+  };
+
   return (
     <div className="main max-w-[1200px] mx-auto">
       {/* * Navbar / Just Header */}
       <Navbar />
       {/* DarkMode */}
-      <DarkModeSelector />
+      <div className="overflow-hidden">
+        <DarkModeSelector />
+      </div>
       {/* Create a new Note */}
-      <CreateInput />
+      <CreateInput createInputValues={createInputValues} />
       {/* Pinned Note Section */}
       {/* Main Notes Section Displayed */}
       <div>
@@ -111,7 +124,12 @@ export default function Home() {
         </div>
       </div>
       {/* Pagination */}
-      <Pagination notesPerPage={notesPerPage} currentPage={currentPage} totalNotes={notesLength} handlePageChange={handlePageChange} />
+      <Pagination
+        notesPerPage={notesPerPage}
+        currentPage={currentPage}
+        totalNotes={notesLength}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 }

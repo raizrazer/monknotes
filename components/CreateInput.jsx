@@ -1,17 +1,21 @@
 import React from "react";
+import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { useState, useRef } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { useState,useEffect, useRef } from "react";
+import { collection, addDoc,doc, updateDoc  } from "firebase/firestore";
 import db from "../utils/firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateInput = () => {
+const CreateInput = ({createInputValues}) => {
   // * Toastify function to show a toast when a user created a note.
   const notify = (value) => {
     switch (value) {
       case "success":
         toast.success("Note added successfully!");
+        break;
+      case "updated":
+        toast.success("Note updated successfully!");
         break;
       default:
         toast("I don't know what this toast is!");
@@ -27,6 +31,10 @@ const CreateInput = () => {
   const [titleValue, setTitleValue] = useState("");
   const [taglineValue, setTaglineValue] = useState("");
   const [bodyValue, setBodyValue] = useState("");
+  // * Show CREATE OR UPDATE states
+  const [update,setUpdate] = useState(false);
+
+
   // * Show Error if the required input field is not filled.
   const showErrorInput = (text) => {
     return (
@@ -35,6 +43,20 @@ const CreateInput = () => {
       </p>
     );
   };
+
+  useEffect(() => {
+    (()=>{
+      console.log("ran first render");
+      if(createInputValues != null){
+        setTitleValue(createInputValues.title)
+        setTaglineValue(createInputValues.tagline)
+        setBodyValue(createInputValues.body)
+        setInFocus(true);
+        setUpdate(true);
+      }
+    })();
+  }, [createInputValues])
+  
 
   //* Add a new document with a generated id.
   const addNote = async () => {
@@ -64,8 +86,38 @@ const CreateInput = () => {
       notify("success");
     }
   };
+
+  const updateNote = async() =>{
+    console.log("Update",createInputValues.id)
+    if (titleValue === "") {
+      setTitleError(true);
+      setTimeout(() => {
+        setTitleError(false);
+      }, 10000);
+      return;
+    } else if (bodyValue === "") {
+      setBodyError(true);
+      setTimeout(() => {
+        setBodyError(false);
+      }, 10000);
+      return;
+    } else {
+      const notesRef = doc(db, "notes", createInputValues.id);
+      const docRef = await updateDoc(notesRef, {
+        heading: titleValue,
+        tagline: taglineValue ? taglineValue : "",
+        notecontent: bodyValue,
+        timestamp: new Date(),
+      });
+      setTitleValue("");
+      setTaglineValue("");
+      setBodyValue("");
+      notify("updated");
+    }
+  }
   return (
     <div className={`py-10 px-5`}>
+      {/* Toast */}
       <ToastContainer draggable />
       <div className={`flex justify-center `}>
         <form
@@ -75,6 +127,7 @@ const CreateInput = () => {
           }}
           onBlur={() => {
             if(titleValue === "" && bodyValue === ""){
+              setUpdate(false)
               setInFocus(false);
             }
           }}
@@ -115,8 +168,10 @@ const CreateInput = () => {
               placeholder="Enter a tagline"
               value={taglineValue}
               onChange={(e) => {
-                setTaglineValue(e.target.value);
-              }}
+                  if(e.target.value.length<80){
+                    setTaglineValue(e.target.value);
+                  }
+                }}
             ></input>
           </div>
           <div>
@@ -125,16 +180,16 @@ const CreateInput = () => {
                 inFocus ? "h-fit my-1" : "h-0 overflow-hidden"
               }`}
             >
-              <textarea
-                className="p-1 m-1 w-full font-semibold"
-                type={""}
+              <TextareaAutosize
+                className="p-1 m-1 w-full h-max font-semibold"
+                type={`text`}
                 placeholder="Enter you notes here"
                 value={bodyValue}
                 onChange={(e) => {
                   setBodyError(false);
                   setBodyValue(e.target.value);
                 }}
-              ></textarea>
+              ></TextareaAutosize>
             </div>
             {bodyError ? showErrorInput("some content") : ""}
           </div>
@@ -147,13 +202,13 @@ const CreateInput = () => {
               className="flex items-center gap-4 font-semibold rounded-md bg-amber-800 px-4 py-2"
               onClick={(e) => {
                 e.preventDefault();
-                addNote();
+                update ? updateNote() : addNote();
               }}
             >
               <AiOutlinePlusCircle
                 className={`text-4xl transition-all duration-200`}
               />{" "}
-              Create a Note
+              {update ? `Update Note` : `Create a Note`}
             </button>
           </div>
         </form>
