@@ -144,7 +144,7 @@ const CreateInput = ({ createInputValues }) => {
                 setInFocus(false);
               }
             }}
-            className={`flex transition-none w-[90%] md:w-[500px] bg-card-bg flex-col static p-2 outline-black transition-all duration-500 shadow-brand-main rounded-brand-main justify-center max-w-[1000px] ${
+            className={`flex w-[90%] md:w-[500px] bg-card-bg flex-col static p-2 outline-black transition-none shadow-brand-main rounded-brand-main justify-center max-w-[1000px] ${
               inFocus
                 ? "outline-[1px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                 : ""
@@ -153,7 +153,7 @@ const CreateInput = ({ createInputValues }) => {
             <div>
               <div className="flex">
                 <AiOutlinePlusCircle
-                  className={`text-4xl text-brand-lite-color transition-all duration-200 ${
+                  className={`text-4xl text-brand-lite-color transition-[width] delay-300 duration-400 ${
                     inFocus ? "w-0" : ""
                   }`}
                 />

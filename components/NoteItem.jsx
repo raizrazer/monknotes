@@ -74,7 +74,7 @@ const NoteItem = ({
             e.preventDefault();
             pinNote();
           }}
-          className="cursor-pointer"
+          className="cursor-pointer transition-all duration-100 ease-in-out hover:rotate-90 hover:scale-[130%]"
         />
         <AiOutlineDelete
           id="button"
@@ -82,7 +82,7 @@ const NoteItem = ({
             e.preventDefault();
             deleteNote();
           }}
-          className="cursor-pointer"
+          className="cursor-pointer transition-all duration-100 ease-in-out hover:scale-[130%]"
         />
       </div>
       <div className="flex items-center justify-between text-brand-maintitle font-bold w-full">

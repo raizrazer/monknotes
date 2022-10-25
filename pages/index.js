@@ -1,7 +1,7 @@
 import CreateInput from "../components/CreateInput";
 import DarkModeSelector from "../components/DarkModeSelector";
 import Navbar from "../components/Navbar";
-import { BiNote } from "react-icons/bi";
+import { BiNote,BiPin } from "react-icons/bi";
 import NoteItem from "../components/NoteItem";
 import Pagination from "../components/Pagination";
 import db from "../utils/firebase";
@@ -193,7 +193,7 @@ export default function Home() {
         <div className={`mb-5 ${pinnedNotesLength ? `` : `hidden`}`}>
           <h1 className="flex mb-5 items-center text-brand-biggest text-brand-main-color-dark font-semibold px-3 md:px-10">
             {" "}
-            <BiNote /> Pinned Notes
+            <BiPin /> Pinned Notes
           </h1>
           <div className="flex justify-center px-10 lg:px-0">
             <div
