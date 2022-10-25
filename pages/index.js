@@ -97,39 +97,39 @@ export default function Home() {
   };
 
   return (
-    <div className="main max-w-[1200px] mx-auto">
-      {/* * Navbar / Just Header */}
-      <Navbar />
-      {/* DarkMode */}
-      <div className="overflow-hidden">
+    <div className="main">
+      <div className="max-w-[1200px] relative overflow-hidden mx-auto">
+        {/* * Navbar / Just Header */}
+        <Navbar />
+        {/* DarkMode */}
         <DarkModeSelector />
-      </div>
-      {/* Create a new Note */}
-      <CreateInput createInputValues={createInputValues} />
-      {/* Pinned Note Section */}
-      {/* Main Notes Section Displayed */}
-      <div>
-        <h1 className="flex items-center text-brand-biggest font-semibold px-3 md:px-10">
-          {" "}
-          <BiNote /> Notes
-        </h1>
-        <div className="flex justify-center px-10 lg:px-0">
-          <div
-            className={`${
-              notesList ? `grid` : `flex`
-            } flex-wrap gap-[30px] justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`}
-          >
-            {displayNote()}
+        {/* Create a new Note */}
+        <CreateInput createInputValues={createInputValues} />
+        {/* Pinned Note Section */}
+        {/* Main Notes Section Displayed */}
+        <div>
+          <h1 className="flex items-center text-brand-biggest font-semibold px-3 md:px-10">
+            {" "}
+            <BiNote /> Notes
+          </h1>
+          <div className="flex justify-center px-10 lg:px-0">
+            <div
+              className={`${
+                notesList ? `grid` : `flex`
+              } flex-wrap gap-[30px] justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`}
+            >
+              {displayNote()}
+            </div>
           </div>
         </div>
+        {/* Pagination */}
+        <Pagination
+          notesPerPage={notesPerPage}
+          currentPage={currentPage}
+          totalNotes={notesLength}
+          handlePageChange={handlePageChange}
+        />
       </div>
-      {/* Pagination */}
-      <Pagination
-        notesPerPage={notesPerPage}
-        currentPage={currentPage}
-        totalNotes={notesLength}
-        handlePageChange={handlePageChange}
-      />
     </div>
   );
 }

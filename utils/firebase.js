@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "monknotes-d441b",
   storageBucket: "monknotes-d441b.appspot.com",
   messagingSenderId: "429870175510",
-  appId: "1:429870175510:web:c5e567c7615604540bac37"
+  appId: "1:429870175510:web:c5e567c7615604540bac37",
 };
 
 // Initialize Firebase

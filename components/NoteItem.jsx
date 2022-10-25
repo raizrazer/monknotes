@@ -35,7 +35,7 @@ const NoteItem = ({
         />
       </div>
       {tagline && (
-        <h5 className="text-brand-subtitle  overflow-clip  font-semibold">
+        <h5 className="text-brand-subtitle overflow-clip  font-semibold">
           {tagline}
         </h5>
       )}

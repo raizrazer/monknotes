@@ -1,6 +1,6 @@
 import React from "react";
 import TextareaAutosize from 'react-textarea-autosize';
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlinePlusCircle,AiOutlineArrowUp } from "react-icons/ai";
 import { useState,useEffect, useRef } from "react";
 import { collection, addDoc,doc, updateDoc  } from "firebase/firestore";
 import db from "../utils/firebase";
@@ -136,14 +136,14 @@ const CreateInput = ({createInputValues}) => {
           }`}
         >
           <div>
-            <div className="flex my-1 max-w-[1200px]">
+            <div className="flex max-w-[1200px]">
               <AiOutlinePlusCircle
                 className={`text-4xl transition-all duration-200 ${
                   inFocus ? "w-0" : ""
                 }`}
               />
               <input
-                className="p-1 m-1 w-full font-semibold"
+                className="p-1 mx-1 w-full text-brand-maintitle font-bold"
                 type={"text"}
                 placeholder="Enter a title"
                 value={titleValue}
@@ -159,11 +159,11 @@ const CreateInput = ({createInputValues}) => {
           </div>
           <div
             className={`flex max-w-[1200px] transition-all duration-200 ${
-              inFocus ? "h-fit my-1" : "h-0 overflow-hidden"
+              inFocus ? "h-fit" : "h-0 overflow-hidden"
             }`}
           >
             <input
-              className="p-1 m-1 w-full font-semibold"
+              className="p-1 mx-1 w-full text-brand-subtitle font-semibold"
               type={"text"}
               placeholder="Enter a tagline"
               value={taglineValue}
@@ -177,12 +177,12 @@ const CreateInput = ({createInputValues}) => {
           <div>
             <div
               className={`flex max-w-[1200px] transition-all duration-200 ${
-                inFocus ? "h-fit my-1" : "h-0 overflow-hidden"
+                inFocus ? "h-fit" : "h-0 overflow-hidden"
               }`}
             >
               <TextareaAutosize
-                className="p-1 m-1 w-full h-max font-semibold"
-                type={`text`}
+                className="p-1 mx-1 w-full h-max text-brand-body items-stretch"
+                type={"text"}
                 placeholder="Enter you notes here"
                 value={bodyValue}
                 onChange={(e) => {
@@ -199,15 +199,18 @@ const CreateInput = ({createInputValues}) => {
             }`}
           >
             <button
-              className="flex items-center gap-4 font-semibold rounded-md bg-amber-800 px-4 py-2"
+              className="flex items-center gap-4 font-semibold rounded-md bg-brand-lite-color text-white px-4 py-2"
               onClick={(e) => {
                 e.preventDefault();
                 update ? updateNote() : addNote();
               }}
             >
-              <AiOutlinePlusCircle
-                className={`text-4xl transition-all duration-200`}
-              />{" "}
+              {update ? <AiOutlineArrowUp
+                className={`text-4xl text-orange-400 transition-all duration-200`}
+              /> : <AiOutlinePlusCircle
+                className={`text-4xl text-white transition-all duration-200`}
+              />}
+              
               {update ? `Update Note` : `Create a Note`}
             </button>
           </div>
