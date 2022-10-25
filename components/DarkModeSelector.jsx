@@ -1,8 +1,8 @@
 import React from 'react'
 
-const DarkModeSelector = () => {
+const DarkModeSelector = ({switchTheme}) => {
   return (
-    <div className='darkmode-switcher rounded-full w-20 aspect-square bg-black absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 cursor-pointer'></div>
+    <div onClick={()=>{switchTheme()}} className='darkmode-switcher z-50 rounded-full transition-[width] w-20 hover:w-36 aspect-square bg-brand-main-color-dark absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 cursor-pointer'></div>
   )
 }
 

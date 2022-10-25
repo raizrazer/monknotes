@@ -7,9 +7,11 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        'brand-main-color-dark':"#1F0318",
-        'brand-main-medium-color':"#59284D",
-        'brand-lite-color':"#837569",
+        'brand-main-color-dark':"var(--brand-main-color-dark)",
+        'brand-main-medium-color':"var(--brand-main-medium-color)",
+        'brand-lite-color':"var(--brand-lite-color)",
+        'brand-main-background':"var(--brand-main-background)",
+        'card-bg':"var(--card-bg)",
       },
       fontSize:{
         'brand-biggest':"22px",
