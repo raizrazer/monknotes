@@ -59,13 +59,15 @@ const NoteItem = ({
     <article
       onClick={(e) => {
         e.preventDefault();
-        if (e.target.id !== "button") {
+        console.log(e.target.id)
+        // class content
+        if (e.target.id === "selectable") {
           getCreateInputData({ id, title, tagline, body, pinned });
         }
       }}
       className="content bg-card-bg transition-all duration-250 hover:outline hover:outline-[1px] outline-black flex flex-col gap-y-[6px] w-[250px] py-[30px] px-[20px] h-fit rounded-brand-main shadow-brand-main"
     >
-      <div className="flex w-full justify-between mb-2 text-2xl text-brand-biggest text-brand-lite-color  ">
+      <div id="selectable" className="flex w-full justify-between mb-2 text-2xl text-brand-biggest text-brand-lite-color  ">
         <AiOutlinePushpin
           id="button"
           onClick={(e) => {
@@ -84,14 +86,14 @@ const NoteItem = ({
         />
       </div>
       <div className="flex items-center justify-between text-brand-maintitle font-bold w-full">
-        <h3 className="overflow-clip text-brand-main-color-dark ">{title}</h3>
+        <h3 id="selectable" className="text-brand-main-color-dark ">{title}</h3>
       </div>
       {tagline && (
-        <h5 className="text-brand-subtitle text-brand-main-medium-color overflow-clip  font-semibold">
+        <h4 id="selectable" className="text-brand-subtitle text-brand-main-medium-color overflow-clip  font-semibold">
           {tagline}
-        </h5>
+        </h4>
       )}
-      <p className="text-brand-body items-stretch text-brand-main-color-dark overflow-clip ">
+      <p id="selectable" className="text-brand-body items-stretch text-brand-main-low-dark overflow-clip ">
         {body}
       </p>
       <p className="date self-end text-brand-body text-brand-lite-color  flex items-center">

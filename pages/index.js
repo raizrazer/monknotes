@@ -117,7 +117,7 @@ export default function Home() {
         <Grid
           height="80"
           width="80"
-          color="gray"
+          color="var(--brand-lite-color)"
           ariaLabel="grid-loading"
           radius="12.5"
           wrapperStyle={{}}
@@ -150,7 +150,7 @@ export default function Home() {
         <Grid
           height="80"
           width="80"
-          color="var(--brand-lite-color)"
+          color="gray"
           ariaLabel="grid-loading"
           radius="12.5"
           wrapperStyle={{}}
@@ -173,6 +173,13 @@ export default function Home() {
   return (
     <div className="main z-0 overflow-hidden" data-theme={themeValue}>
       <Head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="DaRudeMonkie" />
+        <meta
+          name="description"
+          content="This Application is used to store simple notes, It's also public. It's an app made with NextJS and Google Firebase."
+        />
         <title>MonkNotes</title>
       </Head>
       <DarkModeSelector switchTheme={switchTheme} />
@@ -184,7 +191,7 @@ export default function Home() {
         <CreateInput createInputValues={createInputValues} />
         {/* Pinned Note Section */}
         {/* Main Notes Section Displayed */}
-        <div className={`mb-5 ${ pinnedNotesLength ? `` : `hidden`}`}>
+        <div className={`mb-5 ${pinnedNotesLength ? `` : `hidden`}`}>
           <h1 className="flex mb-5 items-center text-brand-biggest text-brand-main-color-dark font-semibold px-3 md:px-10">
             {" "}
             <BiNote /> Pinned Notes
